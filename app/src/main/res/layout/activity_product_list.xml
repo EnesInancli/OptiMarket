@@ -6,18 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B9F6CA"
-    tools:context=".ProductListActivity">
+    tools:context=".StatisticsActivity">
 
     <TextView
-        android:id="@+id/productListTitle"
+        android:id="@+id/productListTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="36dp"
         android:text="Product List"
         android:textColor="#32568E"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewProducts"
+        android:layout_width="409dp"
+        android:layout_height="645dp"
+        android:contentDescription="List of products in the market"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productListTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,12 +24,22 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        //Ürün listesi sekmesine gitme butonu
+        //Ürün listesine gitme butonu
         Button productlistbutton = findViewById(R.id.productListButton);
         productlistbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ProductListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //Ürün ekleme sekmesine gitme butonu
+        Button addproductbutton = findViewById(R.id.addProductButton);
+        addproductbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddProductActivity.class);
                 startActivity(intent);
             }
         });
@@ -63,7 +73,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 }
