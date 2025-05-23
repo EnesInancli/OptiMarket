@@ -4,5 +4,5 @@ public class SelfCare extends Product{
 
 
 
-    public String getCategory(){return "Self Care";}
+    public String getCategory(){return "Selfcare";}
 }

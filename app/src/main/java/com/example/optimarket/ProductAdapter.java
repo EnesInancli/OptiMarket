@@ -9,10 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<com.example.optimarket.ProductAdapter.ProductViewHolder> {
 
     private List<Product> productList;
 
@@ -37,7 +38,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             category = itemView.findViewById(R.id.productCategory);
             editButton = itemView.findViewById(R.id.editButton);
         }
-
     }
 
     @Override
@@ -49,53 +49,82 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         Product p = productList.get(position);
-
         holder.name.setText("Name: " + p.getName());
-        holder.price.setText("Price: " + p.getPrice() + "₺");
-        holder.cost.setText("Cost: " + p.getCost() + "₺");
-        holder.profit.setText("Profit: " + p.getProfit() + "₺");
+        holder.price.setText("Price: " + String.format("%.2f", p.getPrice()) + "$");
+        holder.cost.setText("Cost: " + String.format("%.2f", p.getCost()) + "$");
+        holder.profit.setText("Profit: " + String.format("%.2f", p.getProfit()) + "$");
         holder.stock.setText("Stock: " + p.getStock());
-        holder.discount.setText("Discount: " + p.getDiscountAmount());
+        holder.discount.setText("Discount: " + String.format("%.2f", p.getDiscountAmount()) + "$");
         holder.category.setText("Category: " + p.getCategory());
 
         holder.editButton.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            builder.setTitle("Update Stock & Discount");
+            builder.setTitle("Update Price & Discount");
 
             LinearLayout layout = new LinearLayout(v.getContext());
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setPadding(50, 40, 50, 10);
 
-            EditText stockInput = new EditText(v.getContext());
-            stockInput.setHint("Stock");
-            stockInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-            layout.addView(stockInput);
+            // Price input
+            EditText priceInput = new EditText(v.getContext());
+            priceInput.setHint("Price (Current: " + String.format("%.2f", p.getPrice()) + "₺)");
+            priceInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            priceInput.setText(String.valueOf(p.getPrice()));
+            layout.addView(priceInput);
 
+            // Discount input
             EditText discountInput = new EditText(v.getContext());
-            discountInput.setHint("Discount Amount");
+            discountInput.setHint("Discount (Current: " + String.format("%.2f", p.getDiscountAmount()) + "₺)");
             discountInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            discountInput.setText(String.valueOf(p.getDiscountAmount()));
             layout.addView(discountInput);
 
             builder.setView(layout);
 
             builder.setPositiveButton("Update", (dialog, which) -> {
-                String stockStr = stockInput.getText().toString();
-                String discountStr = discountInput.getText().toString();
+                try {
+                    String priceStr = priceInput.getText().toString().trim();
+                    String discountStr = discountInput.getText().toString().trim();
 
-                if (!stockStr.isEmpty() && !discountStr.isEmpty()) {
-                    int newStock = Integer.parseInt(stockStr);
+                    if (priceStr.isEmpty() || discountStr.isEmpty()) {
+                        Toast.makeText(v.getContext(), "Please fill in all fields!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    double newPrice = Double.parseDouble(priceStr);
                     double newDiscount = Double.parseDouble(discountStr);
+
+                    // Negatif değer kontrolü
+                    if (newPrice < 0 || newDiscount < 0) {
+                        Toast.makeText(v.getContext(), "Price and discount cannot be negative!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     // Ürün güncelleniyor
                     Product selectedProduct = productList.get(holder.getAdapterPosition());
-                    selectedProduct.setStock(newStock);
+                    selectedProduct.setPrice(newPrice);
                     selectedProduct.setDiscountAmount(newDiscount);
+                    selectedProduct.calculateProfit(); // Kar yeniden hesaplanır
 
-                    // DATABASE’E GÜNCELLE
+                    // DATABASE'E GÜNCELLE
                     DatabaseHelper dbHelper = new DatabaseHelper(v.getContext());
-                    dbHelper.updateProduct(selectedProduct);   //stok ve indirimi güncelle
+                    boolean updateResult = dbHelper.updateProduct(selectedProduct);
 
-                    notifyItemChanged(holder.getAdapterPosition()); // Ekranı yenile
+                    if (updateResult) {
+                        Toast.makeText(v.getContext(),
+                                selectedProduct.getName() + " updated successfully!",
+                                Toast.LENGTH_SHORT).show();
+                        notifyItemChanged(holder.getAdapterPosition()); // Ekranı yenile
+                    } else {
+                        Toast.makeText(v.getContext(),
+                                "An error occurred during update!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (NumberFormatException e) {
+                    Toast.makeText(v.getContext(), "Please enter valid numbers!", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(v.getContext(), "An error occurred: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -103,7 +132,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
             builder.show();
         });
-
     }
 
     @Override

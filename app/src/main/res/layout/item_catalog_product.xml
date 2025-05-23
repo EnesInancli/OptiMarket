@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/productName"
+            android:id="@+id/productCatalogName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -23,18 +23,18 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/editButton"
+            android:id="@+id/buyButton"
             android:layout_width="76dp"
             android:layout_height="35dp"
             android:backgroundTint="#E41B38"
-            android:text="Edit"
+            android:text="Buy"
             android:textSize="14sp"
             tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <!-- Category -->
     <TextView
-        android:id="@+id/productCategory"
+        android:id="@+id/productCatalogCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
@@ -48,18 +48,13 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/productPrice"
+            android:id="@+id/productCatalogPrice"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Price" />
 
-        <TextView
-            android:id="@+id/productStock"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Stock" />
+
     </LinearLayout>
 
     <!-- Satır: Cost ve Discount -->
@@ -67,28 +62,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/productCost"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cost" />
-
-        <TextView
-            android:id="@+id/productDiscount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Discount" />
     </LinearLayout>
 
     <!-- Profit -->
-    <TextView
-        android:id="@+id/productProfit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="0dp"
-        android:text="Profit" />
+
 
 </LinearLayout>
