@@ -1,10 +1,9 @@
 package com.example.optimarket;
 
 public abstract class Product {
-    // Bu değişkenler veritabanında tutulan değişkenler
     private String name;
-    private double originalPrice; // Orijinal fiyat
-    private double price;         // İndirimli fiyat
+    private double originalPrice;  // Orijinal fiyat
+    private double price;          // İndirimli fiyat
     private double cost;
     private double profit;
     private int stock;
@@ -34,11 +33,9 @@ public abstract class Product {
         calculateProfit();
     }
 
-    // Name methods
     public void setName(String name) {
         this.name = name;
     }
-
     public String getName() {
         return name;
     }
@@ -49,7 +46,6 @@ public abstract class Product {
         this.price = price - discountAmount; // İndirim varsa uygula
         calculateProfit();
     }
-
     public double getPrice() {
         return price;
     }
@@ -58,35 +54,30 @@ public abstract class Product {
         return originalPrice;
     }
 
-    // Cost methods
     public void setCost(double cost) {
         this.cost = cost;
         calculateProfit();
     }
-
     public double getCost() {
         return cost;
     }
 
-    // Profit calculation
+    // kar hesabı
     public void calculateProfit() {
         this.profit = this.price - this.cost;
     }
-
     public double getProfit() {
         return profit;
     }
 
-    // Stock methods
     public void setStock(int stock) {
         this.stock = stock;
     }
-
     public int getStock() {
         return stock;
     }
 
-    // Stock işlemleri için yardımcı metodlar
+    // Stok işlemleri için yardımcı metodlar
     public boolean isInStock() {
         return stock > 0;
     }
@@ -128,7 +119,6 @@ public abstract class Product {
         return discountAmount > 0;
     }
 
-    // Abstract method
     public abstract String getCategory();
 
     // toString method for debugging
