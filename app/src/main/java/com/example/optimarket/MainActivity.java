@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateBalanceText(double balance) {
-        balanceTextView.setText("Balance: $" + balance);
+        balanceTextView.setText(String.format("Balance: $%.2f", balance));
     }
 
     @Override

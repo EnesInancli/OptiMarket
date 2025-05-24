@@ -31,7 +31,7 @@ public class BuyProductActivity extends AppCompatActivity implements OnBuyClickL
         currentBalance = getIntent().getDoubleExtra("balance", 0.0); //Maindeki parayı çekme
 
         currentBalance_Text = findViewById(R.id.textCurrentBalance);
-        currentBalance_Text.setText("Balance: $" + currentBalance);
+        currentBalance_Text.setText(String.format("Balance: $%.2f", currentBalance));
 
         recyclerView = findViewById(R.id.recyclerViewCatalog);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -193,7 +193,7 @@ public class BuyProductActivity extends AppCompatActivity implements OnBuyClickL
                             Toast.makeText(this, "An error occurred while adding the product to the database!", Toast.LENGTH_SHORT).show();
                             // Bakiyeyi geri yükle
                             currentBalance += totalPrice;
-                            currentBalance_Text.setText("Balance: $" + currentBalance);
+                            currentBalance_Text.setText(String.format("Balance: $%.2f", currentBalance));
                             return;
                         }
                     }
@@ -201,7 +201,7 @@ public class BuyProductActivity extends AppCompatActivity implements OnBuyClickL
                     Toast.makeText(this,
                             quantity +" "+ product.getName() + "' purchased. Remaining balance: $" + String.format("%.2f", currentBalance),
                             Toast.LENGTH_LONG).show();
-                    currentBalance_Text.setText("Balance: $" + String.format("%.2f", currentBalance));
+                    currentBalance_Text.setText(String.format("Balance: $%.2f", currentBalance));
 
                 } else {
                     Toast.makeText(this,

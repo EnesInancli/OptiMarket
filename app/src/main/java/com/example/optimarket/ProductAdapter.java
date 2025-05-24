@@ -65,19 +65,54 @@ public class ProductAdapter extends RecyclerView.Adapter<com.example.optimarket.
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setPadding(50, 40, 50, 10);
 
-            // Price input
-            EditText priceInput = new EditText(v.getContext());
-            priceInput.setHint("Price (Current: " + String.format("%.2f", p.getPrice()) + "₺)");
-            priceInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            priceInput.setText(String.valueOf(p.getPrice()));
-            layout.addView(priceInput);
+            // Price Row Layout
+            LinearLayout priceRow = new LinearLayout(v.getContext());
+            priceRow.setOrientation(LinearLayout.HORIZONTAL);
 
-            // Discount input
+// Sabit yazı: Current Price:
+            TextView priceLabel = new TextView(v.getContext());
+            priceLabel.setText("Current Price: ");
+            priceLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
+            ));
+            priceRow.addView(priceLabel);
+
+// Fiyat girişi
+            EditText priceInput = new EditText(v.getContext());
+            priceInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            priceInput.setText(String.format("%.2f", p.getPrice()));
+            priceInput.setLayoutParams(new LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
+            ));
+            priceRow.addView(priceInput);
+
+            layout.addView(priceRow);
+
+// ------------------------------
+
+// Discount Row Layout
+            LinearLayout discountRow = new LinearLayout(v.getContext());
+            discountRow.setOrientation(LinearLayout.HORIZONTAL);
+
+// Sabit yazı: Discount:
+            TextView discountLabel = new TextView(v.getContext());
+            discountLabel.setText("Discount: ");
+            discountLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
+            ));
+            discountRow.addView(discountLabel);
+
+// Discount girişi
             EditText discountInput = new EditText(v.getContext());
-            discountInput.setHint("Discount (Current: " + String.format("%.2f", p.getDiscountAmount()) + "₺)");
             discountInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            discountInput.setText(String.valueOf(p.getDiscountAmount()));
-            layout.addView(discountInput);
+            discountInput.setText(String.format("%.2f", p.getDiscountAmount()));
+            discountInput.setLayoutParams(new LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
+            ));
+            discountRow.addView(discountInput);
+
+            layout.addView(discountRow);
+
 
             builder.setView(layout);
 
